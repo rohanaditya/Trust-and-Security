@@ -76,6 +76,7 @@ not_applicable`.
 | Frontend         | Next.js 14 (App Router) + React, inline styles | Single deployable, fast to iterate on in a hackathon window                                                                 |
 | Backend          | Next.js API routes (`/api/*`)                  | Same repo/deploy as the frontend, no separate service to stand up                                                           |
 | Database         | Supabase (Postgres)                            | Managed Postgres with instant REST/JS client, generous free tier                                                            |
+| Code Editor         | GIDE                           | IDE provided as part of hackathon                                                          |
 | Vector search    | pgvector (via Supabase)                        | Vector similarity search lives next to the relational data — one database, no separate vector service                       |
 | LLM              | Claude (Anthropic SDK)                         | Used only to _propose_ candidate answers and drafts — every proposal is validated against real evidence before it's trusted |
 | Embeddings       | Voyage AI                                      | Anthropic's recommended embedding provider, free tier                                                                       |
