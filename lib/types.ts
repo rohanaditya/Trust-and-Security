@@ -1,4 +1,4 @@
-export type ItemStatus = 'verified' | 'conflicting' | 'unknown' | 'user_confirmed' | 'not_applicable';
+export type ItemStatus = 'unknown' | 'vague' | 'verified' | 'confirmed' | 'conflict' | 'not_applicable';
 
 export interface Evidence {
   doc: string;
@@ -35,5 +35,16 @@ export interface MatchedChunk {
   section_title: string | null;
   source_name: string;
   source_type: string;
+  authored_at: string | null;
   similarity: number;
+}
+
+export interface DocHit {
+  id: string;
+  question_id: string;
+  value: string;
+  source_doc: string;
+  source_date: string | null;
+  span: string;
+  created_at: string;
 }

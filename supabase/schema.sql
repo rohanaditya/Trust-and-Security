@@ -37,7 +37,8 @@ create table if not exists questionnaire_items (
   question text not null,
   category text,                       -- Access Control | Data Protection | Backups | Vuln Mgmt | HR/Offboarding ...
   priority int default 5,              -- lower = ask sooner (unknowns/conflicts get boosted at runtime)
-  status text not null default 'unknown',
+  status text not null default 'unknown'
+    check (status in ('unknown','vague','verified','confirmed','conflict','not_applicable')),
   answer text,
   evidence jsonb not null default '[]',    -- [{doc, section, detail, similarity}]
   conflicts jsonb not null default '[]',   -- [{type, detail, sources: [...]}]
@@ -47,24 +48,7 @@ create table if not exists questionnaire_items (
   updated_at timestamptz default now()
 );
 
--- Remove any existing status check constraint (by any name) and install the correct one.
--- Postgres auto-generates constraint names, so we drop by name and then re-add explicitly.
-do $$
-declare
-  constraint_name text;
-begin
-  select constraint_name into constraint_name
-  from information_schema.table_constraints
-  where table_name = 'questionnaire_items'
-    and constraint_type = 'CHECK'
-    and constraint_name ~ '^questionnaire_items.*'
-  limit 1;
-
-  if constraint_name is not null then
-    execute 'alter table questionnaire_items drop constraint ' || quote_ident(constraint_name);
-  end if;
-end $$;
-
+alter table questionnaire_items drop constraint if exists questionnaire_items_status_check;
 alter table questionnaire_items add constraint questionnaire_items_status_check
   check (status in ('unknown','vague','verified','confirmed','conflict','not_applicable'));
 

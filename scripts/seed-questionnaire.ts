@@ -9,6 +9,11 @@ import path from 'path';
 import { supabaseAdmin } from '../lib/supabase';
 import { populateFromDocuments } from '../lib/knowledgeBase';
 
+// Q52's row in the source spreadsheet is malformed — its question text is literally the
+// string "52". Hardcode it not_applicable at seed time so it never enters the populate
+// pass, never shows up in /api/questionnaire?filter=open, and never reaches a prompt.
+const NOT_APPLICABLE_IDS = new Set(['52_52_0']);
+
 async function main() {
   const seedPath = path.join(process.cwd(), 'data', 'questionnaire-seed.json');
   const items = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
@@ -19,7 +24,7 @@ async function main() {
       question: item.question,
       category: item.category,
       priority: item.priority,
-      status: 'unknown',
+      status: NOT_APPLICABLE_IDS.has(item.id) ? 'not_applicable' : 'unknown',
       answer: null,
       evidence: [],
       conflicts: [],
@@ -27,11 +32,12 @@ async function main() {
       asked_user: false,
     });
     if (error) throw error;
-    console.log(`Seeded: ${item.id}`);
+    console.log(`Seeded: ${item.id}${NOT_APPLICABLE_IDS.has(item.id) ? ' (not_applicable, skipping populate)' : ''}`);
   }
 
   console.log('\nRunning document-populate pass on all items...\n');
   for (const item of items) {
+    if (NOT_APPLICABLE_IDS.has(item.id)) continue;
     const result = await populateFromDocuments({ id: item.id, question: item.question } as any);
     console.log(`${item.id}: ${result.status} (confidence ${result.confidence})`);
   }

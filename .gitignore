@@ -1,6 +1,7 @@
-node_modules
-.next
+node_modules/
 .env
-raw-docs
+.env.local
+.next/
+raw-docs/
 *.log
-tsconfig.tsbuildinfo
+.DS_Store
