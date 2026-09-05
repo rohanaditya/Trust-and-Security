@@ -1,0 +1,464 @@
+[
+  {
+    "id": "01_does_your_organization_have_a_formal",
+    "question": "Does your organization have a formal Information Security Program established?",
+    "category": "Governance",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "02_does_your_organization_have_a_published",
+    "question": "Does your organization have a published set of Information Security policies, standards and procedures?",
+    "category": "Governance",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "03_does_your_organization_have_a_public",
+    "question": "Does your organization have a public information security policy?",
+    "category": "Governance",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "04_does_your_organization_document_role_descriptions",
+    "question": "Does your organization document role descriptions including relevant cybersecurity & data protection responsibilities?",
+    "category": "Governance",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "05_is_there_a_procedure_in_place",
+    "question": "Is there a procedure in place for overseeing cybersecurity and data protection controls, that includes how issues are escalated to leadership?",
+    "category": "Governance",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "06_will_you_be_using_any_contractors",
+    "question": "Will you be using any contractors or sub-contractors to complete the engagement with Client XYZ?",
+    "category": "Third-Party Risk Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "07_do_you_have_a_third_party",
+    "question": "Do you have a third-party risk management program/policy in place?",
+    "category": "Third-Party Risk Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "08_please_attach_your_third_party_risk",
+    "question": "Please attach your Third-Party Risk Management Policy.",
+    "category": "Third-Party Risk Management",
+    "answer_type": "document_request",
+    "priority": 2
+  },
+  {
+    "id": "09_does_your_third_party_risk_management",
+    "question": "Does your third-party risk management program include supply chain protections?",
+    "category": "Third-Party Risk Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "10_do_your_vendor_and_subcontractor_agreements",
+    "question": "Do your vendor and subcontractor agreements include clauses requiring adherence to cybersecurity and data privacy standards, and do these requirements flow down to all applicable subcontractors and suppliers?",
+    "category": "Third-Party Risk Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "11_do_you_provide_security_awareness_training",
+    "question": "Do you provide security awareness training at onboarding and at least annually thereafter for all personnel including contractors?",
+    "category": "Security Awareness & Training",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "12_how_frequently_are_employees_trained_on",
+    "question": "How frequently are employees trained on policies in your organization?",
+    "category": "Security Awareness & Training",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "13_does_your_organization_provide_role_based",
+    "question": "Does your organization provide role based security awareness training at least annually?",
+    "category": "Security Awareness & Training",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "14_does_your_organization_have_privacy_controls",
+    "question": "Does your organization have privacy controls and or Data Privacy program in place?",
+    "category": "Privacy",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "15_will_your_personnel_or_your_product",
+    "question": "Will your personnel or your product require access to sensitive data (i.e PII, PI, PHI) to complete the engagement with Regodit?",
+    "category": "Privacy",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "16_please_provide_a_copy_of_your",
+    "question": "Please provide a copy of your data retention schedule and secure disposal procedures",
+    "category": "Privacy",
+    "answer_type": "document_request",
+    "priority": 2
+  },
+  {
+    "id": "17_do_you_have_a_privacy_policy",
+    "question": "Do you have a privacy policy in place? If so, please provide the attachment or URL.",
+    "category": "Privacy",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "18_does_your_organization_ensure_privacy_requirements",
+    "question": "Does your organization ensure privacy requirements are extended to contractors and service providers through contractual agreements, and that roles and responsibilities concerning data privacy are clearly understood and documented?",
+    "category": "Privacy",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "19_do_you_or_any_third_party",
+    "question": "Do you, or any third party you use to deliver services to Client XYZ, store sensitive information outside the United States? If so, where?",
+    "category": "Data Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "20_do_you_require_data_at_rest",
+    "question": "Do you require data-at-rest encryption for sensitive data?",
+    "category": "Data Security",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "21_do_you_require_data_in_transit",
+    "question": "Do you require data-in-transit encryption for sensitive data? If so, please describe the encryption protocols used.",
+    "category": "Data Security",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "22_will_regodit_data_be_stored_on",
+    "question": "Will Regodit data be stored on site, in a data center, or by a third party?",
+    "category": "Data Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "23_do_you_have_data_retention_policies",
+    "question": "Do you have data retention policies and procedures for the secure disposal of information?",
+    "category": "Data Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "24_if_providing_a_product_or_saas",
+    "question": "If providing a product or SaaS platform that will access, store, or process Client XYZ data, are you able to provide applicable data flow diagrams showing how Regodit's data will flow through the tool upon request?",
+    "category": "Data Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "25_is_there_a_policy_in_place",
+    "question": "Is there a policy in place for physical security requirements for your business?",
+    "category": "Physical Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "26_do_you_require_physical_access_to",
+    "question": "Do you require physical access to any Client XYZ locations to complete your engagement?",
+    "category": "Physical Security",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "27_are_you_willing_to_accept_and",
+    "question": "Are you willing to accept and acknowledge the expectations outlined in Client XYZ's Visitor Management document?",
+    "category": "Physical Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "28_does_your_organization_have_procedures_in",
+    "question": "Does your organization have procedures in place to track assets that are brought onto Client XYZ sites?",
+    "category": "Physical Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "29_can_you_provide_your_organization_s",
+    "question": "Can you provide your organization's data protection policy, including evidence of physical safeguards for devices used onsite if requested?",
+    "category": "Physical Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "30_will_client_xyz_be_using_a",
+    "question": "Will Client XYZ be using a web application provided by you?",
+    "category": "Web Application Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "31_what_is_the_name_of_your",
+    "question": "What is the name of your web application?",
+    "category": "Web Application Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "32_what_is_the_function_purpose_of",
+    "question": "What is the function/purpose of your web application?",
+    "category": "Web Application Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "33_how_do_you_report_application_security",
+    "question": "How do you report application security vulnerabilities?",
+    "category": "Web Application Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "34_does_your_web_application_have_an",
+    "question": "Does your web application have an SSL/TLS certificate?",
+    "category": "Web Application Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "35_does_your_application_offer_single_sign",
+    "question": "Does your application offer single sign-on (SSO) or are there plans to implement/offer SSO in the near future? If plans to implement in near future, include an implementation date in your justification.",
+    "category": "Web Application Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "36_do_you_have_policies_procedures_or",
+    "question": "Do you have policies, procedures or standards in place for secure development practices?",
+    "category": "Secure Coding",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "37_do_you_utilize_secure_coding_principles",
+    "question": "Do you utilize Secure Coding Principles - (Detailed logging, encrypted credentials, etc.)?",
+    "category": "Secure Coding",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "38_are_internal_vulnerability_scans_performed",
+    "question": "Are internal vulnerability scans performed?",
+    "category": "Vulnerability Management",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "39_on_what_cadence_are_vulnerability_scans",
+    "question": "On what cadence are vulnerability scans performed?",
+    "category": "Vulnerability Management",
+    "answer_type": "text",
+    "priority": 1
+  },
+  {
+    "id": "40_what_are_the_documented_remediation_timelines",
+    "question": "What are the documented remediation timelines for critical and high patches?",
+    "category": "Vulnerability Management",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "41_what_is_the_process_for_disaster",
+    "question": "What is the process for disaster recovery and backups?",
+    "category": "Business Continuity & Disaster Recovery",
+    "answer_type": "text",
+    "priority": 1
+  },
+  {
+    "id": "42_please_provide_a_copy_of_your",
+    "question": "Please provide a copy of your BC/DR policy for review.",
+    "category": "Business Continuity & Disaster Recovery",
+    "answer_type": "document_request",
+    "priority": 2
+  },
+  {
+    "id": "43_do_you_keep_a_record_of",
+    "question": "Do you keep a record of security events?",
+    "category": "Incident Response",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "44_do_you_monitor_the_security_of",
+    "question": "Do you monitor the security of your wireless networks?",
+    "category": "Incident Response",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "45_do_you_have_an_incident_response",
+    "question": "Do you have an incident response plan in place? If yes, describe briefly.",
+    "category": "Incident Response",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "46_how_often_is_your_incident_response",
+    "question": "How often is your Incident Response Plan Tested?(Drop Down)",
+    "category": "Incident Response",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "47_do_you_have_a_policy_requiring",
+    "question": "Do you have a policy requiring prompt notice to third parties regarding information security events affecting your organization?",
+    "category": "Incident Response",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "48_regardless_of_materiality_have_you_had",
+    "question": "Regardless of materiality, have you had a security event in the last 5 years?",
+    "category": "Incident Response",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "49_do_you_outsource_security_functions_to",
+    "question": "Do you outsource security functions to third-party providers?",
+    "category": "Incident Response",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "50_do_you_use_anti_virus_software",
+    "question": "Do you use anti virus software to protect your devices? If yes, describe.",
+    "category": "Network & Endpoint Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "51_will_your_organization_be_accessing_client",
+    "question": "Will your organization be accessing Client XYZ's network?",
+    "category": "Network & Endpoint Security",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "52_52_0",
+    "question": "52.0",
+    "category": "Network & Endpoint Security",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "53_please_list_out_all_authorized_personnel",
+    "question": "Please list out all authorized personnel, including first and last names and e-mail addresses from your organization that will have access to Client XYZ's assets or network.",
+    "category": "Network & Endpoint Security",
+    "answer_type": "document_request",
+    "priority": 1
+  },
+  {
+    "id": "54_please_submit_a_network_architecture_diagram",
+    "question": "Please submit a network architecture diagram and details of your endpoint protection measures, including how your organization complies with firewall and DNS security standards when accessing XYZ's networks.",
+    "category": "Network & Endpoint Security",
+    "answer_type": "document_request",
+    "priority": 2
+  },
+  {
+    "id": "55_do_you_keep_an_inventory_of",
+    "question": "Do you keep an inventory of information technology (IT) assets and software?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "56_does_your_organization_have_identity_and",
+    "question": "Does your organization have identity and access controls in place?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "57_does_your_organization_leverage_role_based",
+    "question": "Does your organization leverage role-based access control?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "58_do_you_limit_and_periodically_review",
+    "question": "Do you limit and periodically review user access privileges and controls?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "59_what_is_the_cadence_of_your",
+    "question": "What is the cadence of your access reviews?(Drop Down)",
+    "category": "Asset Management",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "60_does_your_organization_require_replay_resistant",
+    "question": "Does your organization require replay-resistant authentication mechanisms such as OTP or MFA?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "61_are_the_external_authenticators_in_use",
+    "question": "Are the external authenticators in use, NIST compliant?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "62_does_your_organization_enforce_the_principle",
+    "question": "Does your organization enforce the principle of least privilege?",
+    "category": "Asset Management",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "63_do_you_conduct_information_security_risk",
+    "question": "Do you conduct information security risk assessments at least annually?",
+    "category": "Risk Assessment",
+    "answer_type": "boolean",
+    "priority": 2
+  },
+  {
+    "id": "64_how_do_you_prioritize_critical_assets",
+    "question": "How do you prioritize critical assets for your organization?",
+    "category": "Risk Assessment",
+    "answer_type": "text",
+    "priority": 2
+  },
+  {
+    "id": "65_does_your_organization_conduct_penetration_testing",
+    "question": "Does your organization conduct penetration testing at least annually?",
+    "category": "Risk Assessment",
+    "answer_type": "boolean",
+    "priority": 1
+  },
+  {
+    "id": "66_have_the_findings_from_the_most",
+    "question": "Have the findings from the most recent penetration test been remediated?",
+    "category": "Risk Assessment",
+    "answer_type": "boolean",
+    "priority": 1
+  }
+]
