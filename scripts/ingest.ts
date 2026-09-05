@@ -3,7 +3,7 @@
  *   1. Download your Google Drive docs into ./raw-docs/ (keep original filenames)
  *   2. npm run ingest
  *
- * Supports .docx, .xlsx, .pdf, .txt/.md
+ * Supports .docx, .xlsx, .pdf, .txt/.md, .png/.jpg/.jpeg (diagrams/screenshots — described via Claude vision)
  * Chunks .docx/.txt by heading (lines that look like "1. Purpose and Scope", "## Roles", etc.)
  * so each chunk is a coherent policy section — this matters a lot for retrieval quality
  * given how consistently your docs are already structured.
@@ -14,9 +14,11 @@ import mammoth from 'mammoth';
 import * as XLSX from 'xlsx';
 // @ts-ignore - no types shipped
 import pdfParse from 'pdf-parse';
+import Anthropic from '@anthropic-ai/sdk';
 import { supabaseAdmin } from '../lib/supabase';
 import { embed } from '../lib/embeddings';
 
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const RAW_DIR = path.join(process.cwd(), 'raw-docs');
 
 function inferSourceType(filename: string): string {
@@ -28,7 +30,6 @@ function inferSourceType(filename: string): string {
   return 'other';
 }
 
-// Split raw text into (sectionTitle, content) chunks using heading-like lines.
 function chunkByHeading(text: string): { section: string | null; content: string }[] {
   const lines = text.split('\n');
   const headingRe = /^\s*(\d+(\.\d+)*\.?\s+[A-Z][^\n]{2,80}|#{1,3}\s+.+)$/;
@@ -52,7 +53,6 @@ function chunkByHeading(text: string): { section: string | null; content: string
   }
   flush();
 
-  // Fallback: no headings detected at all — chunk by paragraph blocks instead.
   if (chunks.length === 0) {
     return text
       .split(/\n\s*\n/)
@@ -63,8 +63,48 @@ function chunkByHeading(text: string): { section: string | null; content: string
   return chunks;
 }
 
+const IMAGE_MEDIA_TYPES: Record<string, 'image/png' | 'image/jpeg'> = {
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+};
+
+async function extractImageDescription(filePath: string, mediaType: 'image/png' | 'image/jpeg'): Promise<string> {
+  const buffer = fs.readFileSync(filePath);
+  const base64 = buffer.toString('base64');
+
+  const msg = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5',
+    max_tokens: 1024,
+    messages: [
+      {
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
+          {
+            type: 'text',
+            text:
+              'This is a diagram or screenshot from a company\'s internal security/infrastructure documentation. ' +
+              'Describe everything visible in full, factual detail: every box, label, arrow, and any text shown. ' +
+              'Do not summarize loosely or add anything not literally visible — this description will be used as ' +
+              'evidence to answer security questionnaire questions, so precision matters more than brevity.',
+          },
+        ],
+      },
+    ],
+  });
+
+  const textBlock = msg.content.find((b) => b.type === 'text');
+  return textBlock && textBlock.type === 'text' ? textBlock.text : '';
+}
+
 async function extractText(filePath: string): Promise<string> {
   const ext = path.extname(filePath).toLowerCase();
+
+  if (ext in IMAGE_MEDIA_TYPES) {
+    return extractImageDescription(filePath, IMAGE_MEDIA_TYPES[ext]);
+  }
+
   const buffer = fs.readFileSync(filePath);
 
   if (ext === '.docx') {
@@ -108,7 +148,6 @@ async function ingestFile(filePath: string) {
     .single();
   if (docError) throw docError;
 
-  // Batch embed for speed
   const embeddings = await embed(chunks.map((c) => c.content), 'document');
 
   const rows = chunks.map((c, i) => ({
@@ -134,10 +173,22 @@ async function main() {
     console.error(`No files found in ${RAW_DIR}.`);
     process.exit(1);
   }
+
+  const failures: string[] = [];
   for (const file of files) {
-    await ingestFile(path.join(RAW_DIR, file));
+    try {
+      await ingestFile(path.join(RAW_DIR, file));
+    } catch (err) {
+      console.error(`  FAILED on ${file}:`, err instanceof Error ? err.message : err);
+      failures.push(file);
+    }
   }
+
   console.log('Done.');
+  if (failures.length > 0) {
+    console.log(`\n${failures.length} file(s) failed and were skipped:`);
+    failures.forEach((f) => console.log(`  - ${f}`));
+  }
 }
 
 main().catch((err) => {

@@ -6,25 +6,26 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "ingest": "tsx scripts/ingest.ts",
-    "seed": "tsx scripts/seed-questionnaire.ts"
+    "ingest": "tsx --env-file=.env scripts/ingest.ts",
+    "seed": "tsx --env-file=.env scripts/seed-questionnaire.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
     "@supabase/supabase-js": "^2.45.0",
+    "mammoth": "^1.8.0",
     "next": "14.2.5",
+    "nstall": "^0.2.0",
+    "pdf-parse": "^1.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "mammoth": "^1.8.0",
-    "xlsx": "^0.18.5",
-    "pdf-parse": "^1.1.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.3",
     "@types/uuid": "^9.0.8",
-    "typescript": "^5.5.0",
-    "tsx": "^4.16.0"
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0"
   }
 }
