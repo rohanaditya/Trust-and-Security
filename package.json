@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "ingest": "tsx scripts/ingest.ts",
-    "seed": "tsx scripts/seed-questionnaire.ts"
+    "ingest": "tsx --env-file=.env scripts/ingest.ts",
+    "seed": "tsx --env-file=.env scripts/seed-questionnaire.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",

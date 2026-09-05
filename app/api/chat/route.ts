@@ -26,14 +26,15 @@ function logTurn(sessionId: string, role: 'user' | 'assistant', content: string,
 }
 
 async function presentItem(item: QuestionnaireItem): Promise<string> {
-  if (item.status === 'conflicting') {
+  if (item.status === 'conflict') {
     return draftConflictDialogue(item.question, item.conflicts);
   }
-  if (item.status === 'verified') {
+  if (item.status === 'verified' || item.status === 'vague') {
     const evidenceLines = item.evidence.map((e) => `- ${e.doc}${e.section ? ` (${e.section})` : ''}: ${e.detail.slice(0, 140)}...`).join('\n');
+    const prefix = item.status === 'vague' ? 'the documents partially answer this' : 'the documents say';
     return (
-      `For "${item.question}", the documents say: ${item.answer}\n\nEvidence:\n${evidenceLines}\n\n` +
-      `Is this still accurate?`
+      `For "${item.question}", ${prefix}: ${item.answer}\n\nEvidence:\n${evidenceLines}\n\n` +
+      `Is this still accurate, and can you fill in what's missing?`
     );
   }
   // unknown
@@ -75,7 +76,7 @@ export async function POST(req: Request) {
 
     const next = await nextItemToAsk();
     if (!next) {
-      const reply = `Got it — recorded. That's everything: ${summary.user_confirmed}/${summary.total} items confirmed. Your questionnaire is ready to generate.`;
+      const reply = `Got it — recorded. That's everything: ${summary.confirmed}/${summary.total} items confirmed. Your questionnaire is ready to generate.`;
       await logTurn(sessionId, 'assistant', reply, null);
       return NextResponse.json({ reply, currentItemId: null, done: true, updatedItem: updated, summary });
     }
@@ -103,8 +104,21 @@ export async function POST(req: Request) {
 
   // First-ever turn of the session: open with the "search before asking" summary,
   // not a blank prompt or a jump straight into the first question.
+  //
+  // NOTE: draftSessionOpener (lib/llm.ts, P3-owned) still expects the old 5-field
+  // summary shape (conflicting/user_confirmed). progressSummary() now returns the
+  // richer 6-value enum (vague/conflict/confirmed). This adapter bridges the two so
+  // the build doesn't break — P3 should update draftSessionOpener's signature to the
+  // new field names and this adapter can then be deleted.
   if (message === '__start__') {
-    const opener = draftSessionOpener({ ...summary, not_applicable: 0 });
+    const opener = draftSessionOpener({
+      total: summary.total,
+      verified: summary.verified,
+      conflicting: summary.conflict,
+      unknown: summary.unknown + summary.vague,
+      user_confirmed: summary.confirmed,
+      not_applicable: summary.not_applicable,
+    });
     await logTurn(sessionId, 'assistant', opener, null);
     return NextResponse.json({ reply: opener, currentItemId: null, done: false, summary });
   }
