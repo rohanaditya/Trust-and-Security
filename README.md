@@ -1,4 +1,4 @@
-# Regodit AI Security Analyst
+# AI Security Analyst
 
 Vendor security questionnaires burn days of a security team's time — mostly re-typing
 answers that already live in a policy doc somewhere. **Regodit AI Security Analyst** reads
@@ -35,7 +35,7 @@ compliance document, that's a worse outcome than leaving the field blank.
 ## Our solution
 
 A conversational analyst that treats the questionnaire itself as the source of truth for
-*what needs to be known*, not the documents. Every one of the 66 questions starts in an
+_what needs to be known_, not the documents. Every one of the 66 questions starts in an
 explicit `unknown` state. A retrieval pass then searches the company's own document
 corpus for evidence and tries to answer each question **only when it can cite a specific
 chunk of source text** — never from the model's general knowledge. Any question that the
@@ -59,7 +59,7 @@ your Slack message disagree, which is correct?" are first-class, expected output
   and asks the user to settle it explicitly, rather than picking a side.
 - **Six-state status model**, computed deterministically from stored evidence (no extra
   LLM calls to derive it): `unknown → vague → verified → confirmed / conflict →
-  not_applicable`.
+not_applicable`.
 - **Distinct correction path.** Fixing an already-`confirmed` answer is a separate,
   explicit write path from recording a first answer — corrections don't get silently
   merged into the evidence trail that produced the original value.
@@ -71,15 +71,15 @@ your Slack message disagree, which is correct?" are first-class, expected output
 
 ## Tech stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Frontend | Next.js 14 (App Router) + React, inline styles | Single deployable, fast to iterate on in a hackathon window |
-| Backend | Next.js API routes (`/api/*`) | Same repo/deploy as the frontend, no separate service to stand up |
-| Database | Supabase (Postgres) | Managed Postgres with instant REST/JS client, generous free tier |
-| Vector search | pgvector (via Supabase) | Vector similarity search lives next to the relational data — one database, no separate vector service |
-| LLM | Claude (Anthropic SDK) | Used only to *propose* candidate answers and drafts — every proposal is validated against real evidence before it's trusted |
-| Embeddings | Voyage AI | Anthropic's recommended embedding provider, free tier |
-| Document parsing | `mammoth` (.docx), `xlsx`, `pdf-parse` | Covers the real-world mix of formats a security team's document folder actually contains |
+| Layer            | Choice                                         | Why                                                                                                                         |
+| ---------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Frontend         | Next.js 14 (App Router) + React, inline styles | Single deployable, fast to iterate on in a hackathon window                                                                 |
+| Backend          | Next.js API routes (`/api/*`)                  | Same repo/deploy as the frontend, no separate service to stand up                                                           |
+| Database         | Supabase (Postgres)                            | Managed Postgres with instant REST/JS client, generous free tier                                                            |
+| Vector search    | pgvector (via Supabase)                        | Vector similarity search lives next to the relational data — one database, no separate vector service                       |
+| LLM              | Claude (Anthropic SDK)                         | Used only to _propose_ candidate answers and drafts — every proposal is validated against real evidence before it's trusted |
+| Embeddings       | Voyage AI                                      | Anthropic's recommended embedding provider, free tier                                                                       |
+| Document parsing | `mammoth` (.docx), `xlsx`, `pdf-parse`         | Covers the real-world mix of formats a security team's document folder actually contains                                    |
 
 ## How it works
 
@@ -138,29 +138,3 @@ a total failure of the product, not an edge case to tolerate.
 To adapt this to a different questionnaire, edit `data/questionnaire-seed.json` (add/
 remove items, tweak `priority` — lower is asked sooner) and re-run `npm run seed`; it
 upserts, so it's safe to re-run after changes.
-
-## What to demo
-
-1. Show the dashboard mid-conversation with a mix of verified (green), conflict (amber),
-   and unknown (grey) items — this alone demonstrates "search before asking" without any
-   explanation needed.
-2. Walk through a conflict item live (e.g. an access-control policy claim vs. an actual
-   infra config or Slack message) — the bot states the conflict explicitly and asks the
-   user to settle it, rather than picking a side.
-3. Answer a vague question ("yes") and show the follow-up firing on the missing detail
-   (frequency/automation).
-4. Correct something already `confirmed` and show it update in place — not duplicated,
-   and not silently blended into the original document evidence.
-5. Close on the number: **"X of 66 answered from documents alone, zero guesses —
-   everything unknown says unknown."**
-
-## Scope notes for judges
-
-This build deliberately cuts scope from a more ambitious design (see
-`AI_SECURITY_ANALYST_SPEC.md` for the full original spec — slot-based sub-claim
-decomposition, dependency gates between questions, a computed confidence formula, hybrid
-BM25 + vector retrieval) in favor of shipping a complete, working loop in the hackathon's
-time budget: one flat row per question, plain vector search, and a straightforward
-confidence threshold instead of a full scoring model. `PLAN.md` documents the full task
-breakdown and the reasoning behind each cut. None of the cuts touch the Golden Rule —
-every cut trades sophistication for simplicity, not correctness.
